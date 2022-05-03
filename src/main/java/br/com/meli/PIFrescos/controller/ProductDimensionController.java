@@ -99,7 +99,12 @@ public class ProductDimensionController {
             }
         }
 
-        List<ProductDimension> dimension = productDimensionService.filterByParams(maxHeight, maxWidth, maxWeight, order);
-        return ResponseEntity.ok(ProductDimensionDTO.convertList(dimension));
+        //Valida query order
+        if(order == null || order.equalsIgnoreCase("asc") || order.equalsIgnoreCase("desc")) {
+            List<ProductDimension> dimension = productDimensionService.filterByParams(maxHeight, maxWidth, maxWeight, order);
+            return ResponseEntity.ok(ProductDimensionDTO.convertList(dimension));
+        } else {
+            throw new RuntimeException("Invalid query for order");
+        }
     }
 }

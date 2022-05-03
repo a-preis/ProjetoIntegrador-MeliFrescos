@@ -74,18 +74,6 @@ public class ProductDimensionService {
      * @author Ana Preis
      */
     public List<ProductDimension> filterByParams(Float maxHeight, Float maxWidth, Float maxWeight, String order){
-
-
-
-        if((order == null || order.equalsIgnoreCase("asc") || order.equalsIgnoreCase("desc"))){
-
-
-
-
-
-            return customRepository.find(maxHeight, maxWidth, maxWeight, order);
-        } else {
-            throw new RuntimeException("Invalid query for order");
-        }
+        return customRepository.find(maxHeight, maxWidth, maxWeight, order);
     }
 }
