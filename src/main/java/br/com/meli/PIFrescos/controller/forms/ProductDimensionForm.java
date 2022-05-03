@@ -1,25 +1,22 @@
-package br.com.meli.PIFrescos.models;
+package br.com.meli.PIFrescos.controller.forms;
 
+import br.com.meli.PIFrescos.models.Product;
+import br.com.meli.PIFrescos.models.ProductDimension;
 import lombok.*;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
 
 /**
  * @author Ana Preis
  * */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class ProductDimension {
+public class ProductDimensionForm {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @OneToOne(mappedBy = "productId", cascade = CascadeType.ALL)
-    private Product product;
+    @NotNull(message = "ProductId field can't be empty")
+    private Integer productId;
 
     @NotNull(message = "Height field can`t be empty")
     @DecimalMax(value = "300", message = "Height can't be greater than 300 cm.")
@@ -36,10 +33,7 @@ public class ProductDimension {
     @DecimalMin(value = "0", message = "Weight can't be smaller than 0 g.")
     private Float weight;
 
-    public ProductDimension(Product product, Float height, Float width, Float weight) {
-        this.product = product;
-        this.height = height;
-        this.width = width;
-        this.weight = weight;
+    public ProductDimension convert(Product product, Float height, Float width, Float weight) {
+        return new ProductDimension(product, height, width, weight);
     }
 }
