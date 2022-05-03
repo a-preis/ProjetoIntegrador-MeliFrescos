@@ -18,7 +18,8 @@ public class ProductDimension {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(mappedBy = "productId", cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "productId", referencedColumnName = "productId")
     private Product product;
 
     @NotNull(message = "Height field can`t be empty")

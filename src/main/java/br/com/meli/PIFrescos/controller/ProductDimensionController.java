@@ -1,18 +1,20 @@
 package br.com.meli.PIFrescos.controller;
 
 import br.com.meli.PIFrescos.controller.dtos.ProductDTO;
+import br.com.meli.PIFrescos.controller.dtos.ProductDimensionDTO;
 import br.com.meli.PIFrescos.controller.forms.ProductDimensionForm;
 import br.com.meli.PIFrescos.models.Product;
 import br.com.meli.PIFrescos.models.ProductDimension;
+import br.com.meli.PIFrescos.service.ProductDimensionService;
 import br.com.meli.PIFrescos.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 
 /**
  * Api de CRUD da dimensão dos produtos
@@ -25,14 +27,27 @@ public class ProductDimensionController {
     @Autowired
     private ProductService productService;
 
-//    @Autowired
-//    private ProductDimensionService productDimensionService;
+    @Autowired
+    private ProductDimensionService productDimensionService;
 
-//    @PostMapping
-//    public ResponseEntity<ProductDTO> create(@RequestBody @Valid ProductDimensionForm form){
-//        Product product = productService.findProductById(form.getProductId());
-//        ProductDimension dimension = this.productDimensionService.saveDimensions(form.convert(product,
-//                form.getHeight(), form.getWidth(), form.getWeight()));
-//        return ResponseEntity.created(new ProductDTO(dimension));
-//    }
+    @PostMapping("")
+    public ResponseEntity<ProductDimensionDTO> create(@RequestBody @Valid ProductDimensionForm form,
+                                                      UriComponentsBuilder uriBuilder){
+        Product product = productService.findProductById(form.getProductId());
+        ProductDimension dimension = this.productDimensionService.saveDimension(form.convert(product,
+                form.getHeight(), form.getWidth(), form.getWeight()));
+        URI uri = uriBuilder
+                .path("")
+                .buildAndExpand(product.getProductId())
+                .toUri();
+        return ResponseEntity.created(uri).body(new ProductDimensionDTO(dimension));
+    }
+
+    @PutMapping("")
+    public ResponseEntity<ProductDimensionDTO> update(@RequestBody @Valid ProductDimensionForm form){
+        Product product = productService.findProductById(form.getProductId());
+        ProductDimension dimension = this.productDimensionService.updateDimension(form.convert(product,
+                form.getHeight(), form.getWidth(), form.getWeight()));
+        return ResponseEntity.ok(new ProductDimensionDTO(dimension));
+    }
 }

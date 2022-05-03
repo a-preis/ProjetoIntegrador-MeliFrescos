@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProductDimensionDTO {
 
-    private Product product;
+    private String productName;
     private Float height;
     private Float width;
     private Float weight;
 
     public ProductDimensionDTO(ProductDimension productDimension) {
-        this.product = productDimension.getProduct();
+        this.productName = productDimension.getProduct().getProductName();
         this.height = productDimension.getHeight();
         this.width = productDimension.getWidth();
         this.weight = productDimension.getWeight();
