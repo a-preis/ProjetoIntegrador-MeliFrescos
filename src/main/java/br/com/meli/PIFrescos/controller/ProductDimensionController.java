@@ -58,4 +58,11 @@ public class ProductDimensionController {
         List<ProductDimensionDTO> list = ProductDimensionDTO.convertList(productDimensionService.getAll());
         return ResponseEntity.ok(list);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDimensionDTO> getProductDimension(@PathVariable Integer id){
+        Product product = productService.findProductById(id);
+        ProductDimension dimension = productDimensionService.findByProduct(product);
+        return ResponseEntity.ok(new ProductDimensionDTO(dimension));
+    }
 }

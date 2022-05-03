@@ -53,4 +53,16 @@ public class ProductDimensionService {
         return repository.findAll();
     }
 
+    /**
+     * Retorna a dimensão do produto recebido cadastradas.
+     * @author Ana Preis
+     */
+    public ProductDimension findByProduct(Product product) {
+        Optional<ProductDimension> dimension = repository.findProductDimensionByProduct(product);
+        if(dimension.isEmpty()){
+            throw new RuntimeException(product.getProductName() + " dimension not found.");
+        }
+        return dimension.get();
+    }
+
 }
