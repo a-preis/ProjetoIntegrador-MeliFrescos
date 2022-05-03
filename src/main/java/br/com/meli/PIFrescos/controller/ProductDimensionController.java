@@ -34,7 +34,7 @@ public class ProductDimensionController {
                                                       UriComponentsBuilder uriBuilder){
         Product product = productService.findProductById(form.getProductId());
         ProductDimension dimension = this.productDimensionService.saveDimension(form.convert(product,
-                form.getHeight(), form.getWidth(), form.getWeight()));
+                form.getHeight(), form.getWidth(), form.getLength(), form.getWeight()));
         URI uri = uriBuilder
                 .path("")
                 .buildAndExpand(product.getProductId())
@@ -46,7 +46,7 @@ public class ProductDimensionController {
     public ResponseEntity<ProductDimensionDTO> update(@RequestBody @Valid ProductDimensionForm form){
         Product product = productService.findProductById(form.getProductId());
         ProductDimension dimension = this.productDimensionService.updateDimension(form.convert(product,
-                form.getHeight(), form.getWidth(), form.getWeight()));
+                form.getHeight(), form.getWidth(), form.getLength(), form.getWeight()));
         return ResponseEntity.ok(new ProductDimensionDTO(dimension));
     }
 
@@ -63,15 +63,27 @@ public class ProductDimensionController {
         return ResponseEntity.ok(new ProductDimensionDTO(dimension));
     }
 
+    @GetMapping("vol/{id}")
+    public ResponseEntity<String> getProductVolume(@PathVariable Integer id){
+        Product product = productService.findProductById(id);
+        ProductDimension dimension = productDimensionService.findByProduct(product);
+        return ResponseEntity.ok("CALCULAR VOLUME");
+    }
+
+    /**
+     * Validações de formato dos parâmetros é realizada antes de chamar o método de service.
+     */
     @GetMapping("/listBy")
     public ResponseEntity<List<ProductDimensionDTO>> filterBy(@RequestParam(required = false) Float maxHeight,
-                                                                   @RequestParam(required = false) Float maxWidth,
-                                                                   @RequestParam(required = false) Float maxWeight,
-                                                                   @RequestParam(required = false) String order){
+                                                               @RequestParam(required = false) Float maxWidth,
+                                                               @RequestParam(required = false) Float maxLength,
+                                                               @RequestParam(required = false) Float maxWeight,
+                                                               @RequestParam(required = false) String order){
 
         // Se todos os parametros forem vazios, listar tudo.
-        if(maxHeight == null && maxWidth == null && maxWeight == null && order == null){
+        if(maxHeight == null && maxWidth == null && maxLength == null && maxWeight == null && order == null){
             List<ProductDimension> dimension = productDimensionService.getAll();
+            return ResponseEntity.ok(ProductDimensionDTO.convertList(dimension));
         }
 
         //Se não for vazio, verificar se consigo converter cada um para Float
@@ -91,6 +103,14 @@ public class ProductDimensionController {
             }
         }
 
+        if(maxLength != null){
+            try{
+                Float.valueOf(maxLength);
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("maxLength query parameter format not valid");
+            }
+        }
+
         if(maxWeight != null){
             try{
                 Float.valueOf(maxWeight);
@@ -101,7 +121,7 @@ public class ProductDimensionController {
 
         //Valida query order
         if(order == null || order.equalsIgnoreCase("asc") || order.equalsIgnoreCase("desc")) {
-            List<ProductDimension> dimension = productDimensionService.filterByParams(maxHeight, maxWidth, maxWeight, order);
+            List<ProductDimension> dimension = productDimensionService.filterByParams(maxHeight, maxWidth, maxLength, maxWeight, order);
             return ResponseEntity.ok(ProductDimensionDTO.convertList(dimension));
         } else {
             throw new RuntimeException("Invalid query for order");

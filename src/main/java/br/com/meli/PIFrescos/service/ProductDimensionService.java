@@ -73,7 +73,7 @@ public class ProductDimensionService {
      * Filtra a lista de ProductDimension pelos parâmetros passados na URL.
      * @author Ana Preis
      */
-    public List<ProductDimension> filterByParams(Float maxHeight, Float maxWidth, Float maxWeight, String order){
-        return customRepository.find(maxHeight, maxWidth, maxWeight, order);
+    public List<ProductDimension> filterByParams(Float maxHeight, Float maxWidth, Float maxLength, Float maxWeight, String order){
+        return customRepository.find(maxHeight, maxWidth, maxLength, maxWeight, order);
     }
 }

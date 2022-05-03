@@ -19,12 +19,14 @@ public class ProductDimensionDTO {
     private String productName;
     private Float height;
     private Float width;
+    private Float length;
     private Float weight;
 
     public ProductDimensionDTO(ProductDimension productDimension) {
         this.productName = productDimension.getProduct().getProductName();
         this.height = productDimension.getHeight();
         this.width = productDimension.getWidth();
+        this.length = productDimension.getLength();
         this.weight = productDimension.getWeight();
     }
 
