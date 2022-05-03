@@ -1,17 +1,14 @@
 package br.com.meli.PIFrescos.controller;
 
-import br.com.meli.PIFrescos.controller.dtos.ProductDTO;
 import br.com.meli.PIFrescos.controller.dtos.ProductDimensionDTO;
 import br.com.meli.PIFrescos.controller.forms.ProductDimensionForm;
 import br.com.meli.PIFrescos.models.Product;
 import br.com.meli.PIFrescos.models.ProductDimension;
 import br.com.meli.PIFrescos.service.ProductDimensionService;
 import br.com.meli.PIFrescos.service.ProductService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -64,5 +61,45 @@ public class ProductDimensionController {
         Product product = productService.findProductById(id);
         ProductDimension dimension = productDimensionService.findByProduct(product);
         return ResponseEntity.ok(new ProductDimensionDTO(dimension));
+    }
+
+    @GetMapping("/listBy")
+    public ResponseEntity<List<ProductDimensionDTO>> filterBy(@RequestParam(required = false) Float maxHeight,
+                                                                   @RequestParam(required = false) Float maxWidth,
+                                                                   @RequestParam(required = false) Float maxWeight,
+                                                                   @RequestParam(required = false) String order){
+
+        // Se todos os parametros forem vazios, listar tudo.
+        if(maxHeight == null && maxWidth == null && maxWeight == null && order == null){
+            List<ProductDimension> dimension = productDimensionService.getAll();
+        }
+
+        //Se não for vazio, verificar se consigo converter cada um para Float
+        if(maxHeight != null){
+            try{
+                Float.valueOf(maxHeight);
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("maxHeight query parameter format not valid");
+            }
+        }
+
+        if(maxWidth != null){
+            try{
+                Float.valueOf(maxWidth);
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("maxWidth query parameter format not valid");
+            }
+        }
+
+        if(maxWeight != null){
+            try{
+                Float.valueOf(maxWeight);
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("maxWeight query parameter format not valid");
+            }
+        }
+
+        List<ProductDimension> dimension = productDimensionService.filterByParams(maxHeight, maxWidth, maxWeight, order);
+        return ResponseEntity.ok(ProductDimensionDTO.convertList(dimension));
     }
 }

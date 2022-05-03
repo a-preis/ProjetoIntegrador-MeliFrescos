@@ -2,6 +2,7 @@ package br.com.meli.PIFrescos.service;
 
 import br.com.meli.PIFrescos.models.Product;
 import br.com.meli.PIFrescos.models.ProductDimension;
+import br.com.meli.PIFrescos.repository.ProductDimensionCustomRepository;
 import br.com.meli.PIFrescos.repository.ProductDimensionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class ProductDimensionService {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    ProductDimensionCustomRepository customRepository;
 
     /**
      * Antes de salvar uma nova dimensão, valida Id do produto e valida se esse produto já tem alguma dimensão cadastrada.
@@ -65,4 +69,23 @@ public class ProductDimensionService {
         return dimension.get();
     }
 
+    /**
+     * Filtra a lista de ProductDimension pelos parâmetros passados na URL.
+     * @author Ana Preis
+     */
+    public List<ProductDimension> filterByParams(Float maxHeight, Float maxWidth, Float maxWeight, String order){
+
+
+
+        if((order == null || order.equalsIgnoreCase("asc") || order.equalsIgnoreCase("desc"))){
+
+
+
+
+
+            return customRepository.find(maxHeight, maxWidth, maxWeight, order);
+        } else {
+            throw new RuntimeException("Invalid query for order");
+        }
+    }
 }
