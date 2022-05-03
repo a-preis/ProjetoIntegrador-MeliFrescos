@@ -6,6 +6,7 @@ import br.com.meli.PIFrescos.repository.ProductDimensionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -42,6 +43,14 @@ public class ProductDimensionService {
     public ProductDimension updateDimension(ProductDimension productDimension) {
         Product product = productService.findProductById(productDimension.getProduct().getProductId());
         return repository.save(productDimension);
+    }
+
+    /**
+     * Retorna todas as dimensões cadastradas.
+     * @author Ana Preis
+     */
+    public List<ProductDimension> getAll() {
+        return repository.findAll();
     }
 
 }
