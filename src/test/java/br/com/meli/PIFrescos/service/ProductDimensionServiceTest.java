@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.parameters.P;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -26,6 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
+
+/**
+ * @author Ana Preis
+ */
 @ExtendWith(MockitoExtension.class)
 public class ProductDimensionServiceTest {
 
@@ -49,6 +52,9 @@ public class ProductDimensionServiceTest {
     ProductDimension dimension3 = new ProductDimension();
     List<ProductDimension> dimensionList = new ArrayList<>();
 
+    /**
+     * Define os objetos Product e ProductDimension iniciais
+     */
     @BeforeEach
     void setUp(){
         product.setProductId(1);
@@ -92,9 +98,15 @@ public class ProductDimensionServiceTest {
         dimensionList.add(dimension3);
     }
 
+    /**
+     * Limpa a lista após cada teste
+     */
     @AfterEach
     void tearDown(){ dimensionList.clear(); }
 
+    /**
+     * Teste do método saveDimension()
+     */
     @Test
     void saveDimension(){
         Mockito.when(repository.findProductDimensionByProduct(product)).thenReturn(Optional.empty());
@@ -105,6 +117,9 @@ public class ProductDimensionServiceTest {
         assertEquals(dimension, result);
     }
 
+    /**
+     * Teste do caso de erro no método saveDimension(), deve mandar uma RuntimeException com a mensagem correta
+     */
     @Test
     void shouldNotSaveDimension(){
         String message = "Banana dimension already registered";
@@ -115,6 +130,9 @@ public class ProductDimensionServiceTest {
         assertThat(exception.getMessage()).isEqualTo(message);
     }
 
+    /**
+     * Teste do método updateDimension()
+     */
     @Test
     void updateDimension(){
         dimension.setWeight(200.0f);
@@ -127,6 +145,9 @@ public class ProductDimensionServiceTest {
         assertEquals(dimension, result);
     }
 
+    /**
+     * Teste do método deleteDimension()
+     */
     @Test
     void deleteDimension(){
         Mockito.when(repository.findProductDimensionByProduct(product)).thenReturn(Optional.ofNullable(dimension));
@@ -136,6 +157,9 @@ public class ProductDimensionServiceTest {
         verify(repository).delete(any());
     }
 
+    /**
+     * Teste do método getAll()
+     */
     @Test
     void getAll(){
         Mockito.when(repository.findAll()).thenReturn(dimensionList);
@@ -145,6 +169,10 @@ public class ProductDimensionServiceTest {
         assertEquals(dimensionList, result);
     }
 
+    /**
+     * Teste do caso de erro do método getAll() onde não há registros de dimensão. Deve mandar uma EntityNotFoundException
+     * com a mensagem correta.
+     */
     @Test
     void shouldNotGetAll(){
         String message = "ProductDimension list is empty!";
@@ -155,6 +183,9 @@ public class ProductDimensionServiceTest {
         assertThat(exception.getMessage()).isEqualTo(message);
     }
 
+    /**
+     * Teste do método findByProduct()
+     */
     @Test
     void findByProduct(){
         Mockito.when(repository.findProductDimensionByProduct(product)).thenReturn(Optional.ofNullable(dimension));
@@ -164,6 +195,10 @@ public class ProductDimensionServiceTest {
         assertEquals(dimension, result);
     }
 
+    /**
+     * Teste do caso de erro do método findByProduct() onde não há registro de dimensão para a id solicitara.
+     * Deve mandar uma EntityNotFoundException com a mensagem correta.
+     */
     @Test
     void shouldNotFindByProduct(){
         String message = "Banana dimension not found.";
@@ -174,6 +209,9 @@ public class ProductDimensionServiceTest {
         assertThat(exception.getMessage()).isEqualTo(message);
     }
 
+    /**
+     * Teste do método filterByParams()
+     */
     @Test
     void filterByParams(){
         Mockito.when(customRepository.find(100.0f, 100.0f, 100.0f, 5000.0f, "asc")).thenReturn(dimensionList);
@@ -183,6 +221,9 @@ public class ProductDimensionServiceTest {
         assertEquals(dimensionList, result);
     }
 
+    /**
+     * Teste do método calculateVolume()
+     */
     @Test
     void calculateVolume(){
         Float volume = dimension.getHeight() * dimension.getLength() * dimension.getWidth();
