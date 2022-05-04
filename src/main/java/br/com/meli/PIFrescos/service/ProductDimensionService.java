@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,12 +57,22 @@ public class ProductDimensionService {
         return repository.save(newDimension);
     }
 
+    public Product deleteDimension(Product product){
+        ProductDimension dimension = findByProduct(product);
+        repository.delete(dimension);
+        return product;
+    }
+
     /**
      * Retorna todas as dimensões cadastradas.
      * @author Ana Preis
      */
     public List<ProductDimension> getAll() {
-        return repository.findAll();
+        List<ProductDimension> dimensionList = repository.findAll();
+        if(dimensionList.isEmpty()){
+            throw new EntityNotFoundException("ProductDimension list is empty!");
+        }
+        return dimensionList;
     }
 
     /**
@@ -71,7 +82,7 @@ public class ProductDimensionService {
     public ProductDimension findByProduct(Product product) {
         Optional<ProductDimension> dimension = repository.findProductDimensionByProduct(product);
         if(dimension.isEmpty()){
-            throw new RuntimeException(product.getProductName() + " dimension not found.");
+            throw new EntityNotFoundException(product.getProductName() + " dimension not found.");
         }
         return dimension.get();
     }

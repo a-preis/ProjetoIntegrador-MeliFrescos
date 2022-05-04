@@ -1,5 +1,6 @@
 package br.com.meli.PIFrescos.controller;
 
+import br.com.meli.PIFrescos.controller.dtos.ProductDTO;
 import br.com.meli.PIFrescos.controller.dtos.ProductDimensionDTO;
 import br.com.meli.PIFrescos.controller.forms.ProductDimensionForm;
 import br.com.meli.PIFrescos.models.Product;
@@ -48,6 +49,13 @@ public class ProductDimensionController {
         ProductDimension dimension = this.productDimensionService.updateDimension(form.convert(product,
                 form.getHeight(), form.getWidth(), form.getLength(), form.getWeight()));
         return ResponseEntity.ok(new ProductDimensionDTO(dimension));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ProductDTO> deleteDimension(@PathVariable Integer id){
+        Product product = productService.findProductById(id);
+        Product productWithoutDimension = productDimensionService.deleteDimension(product);
+        return ResponseEntity.ok(new ProductDTO(productWithoutDimension));
     }
 
     @GetMapping("/list")
