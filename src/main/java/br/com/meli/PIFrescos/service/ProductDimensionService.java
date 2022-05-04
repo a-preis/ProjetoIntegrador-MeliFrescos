@@ -32,12 +32,9 @@ public class ProductDimensionService {
      * @author Ana Preis
      */
     public ProductDimension saveDimension(ProductDimension productDimension) {
-        //
-        Product product = productService.findProductById(productDimension.getProduct().getProductId());
-        //
-        Optional<ProductDimension> dimension = repository.findProductDimensionByProduct(product);
+        Optional<ProductDimension> dimension = repository.findProductDimensionByProduct(productDimension.getProduct());
         if(dimension.isPresent()){
-            throw new RuntimeException(product.getProductName() + " dimension already registered");
+            throw new RuntimeException(productDimension.getProduct().getProductName() + " dimension already registered");
         }
         return repository.save(productDimension);
     }

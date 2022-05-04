@@ -33,9 +33,11 @@ public class ProductDimensionController {
     @PostMapping("")
     public ResponseEntity<ProductDimensionDTO> create(@RequestBody @Valid ProductDimensionForm form,
                                                       UriComponentsBuilder uriBuilder){
+
         Product product = productService.findProductById(form.getProductId());
         ProductDimension dimension = this.productDimensionService.saveDimension(form.convert(product,
                 form.getHeight(), form.getWidth(), form.getLength(), form.getWeight()));
+
         URI uri = uriBuilder
                 .path("")
                 .buildAndExpand(product.getProductId())
