@@ -2,6 +2,7 @@ package br.com.meli.PIFrescos.controller;
 
 import br.com.meli.PIFrescos.controller.dtos.ProductDTO;
 import br.com.meli.PIFrescos.controller.dtos.ProductDimensionDTO;
+import br.com.meli.PIFrescos.controller.dtos.VolumeDTO;
 import br.com.meli.PIFrescos.controller.forms.ProductDimensionForm;
 import br.com.meli.PIFrescos.models.Product;
 import br.com.meli.PIFrescos.models.ProductDimension;
@@ -74,11 +75,12 @@ public class ProductDimensionController {
     }
 
     @GetMapping("vol/{id}")
-    public ResponseEntity<String> getProductVolume(@PathVariable Integer id){
+    public ResponseEntity<VolumeDTO> getProductVolume(@PathVariable Integer id){
         Product product = productService.findProductById(id);
         ProductDimension productDimension = productDimensionService.findByProduct(product);
         Float volume = productDimensionService.calculateVolume(productDimension);
-        return ResponseEntity.ok("Volume da " + product.getProductName() + ": " + volume + " cm³.");
+        VolumeDTO response = new VolumeDTO(product.getProductName(), volume);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -95,39 +97,6 @@ public class ProductDimensionController {
         if(maxHeight == null && maxWidth == null && maxLength == null && maxWeight == null && order == null){
             List<ProductDimension> dimension = productDimensionService.getAll();
             return ResponseEntity.ok(ProductDimensionDTO.convertList(dimension));
-        }
-
-        //Se não for vazio, verificar se consigo converter cada um para Float
-        if(maxHeight != null){
-            try{
-                Float.valueOf(maxHeight);
-            } catch (NumberFormatException e) {
-                throw new NumberFormatException("maxHeight query parameter format not valid");
-            }
-        }
-
-        if(maxWidth != null){
-            try{
-                Float.valueOf(maxWidth);
-            } catch (NumberFormatException e) {
-                throw new NumberFormatException("maxWidth query parameter format not valid");
-            }
-        }
-
-        if(maxLength != null){
-            try{
-                Float.valueOf(maxLength);
-            } catch (NumberFormatException e) {
-                throw new NumberFormatException("maxLength query parameter format not valid");
-            }
-        }
-
-        if(maxWeight != null){
-            try{
-                Float.valueOf(maxWeight);
-            } catch (NumberFormatException e) {
-                throw new NumberFormatException("maxWeight query parameter format not valid");
-            }
         }
 
         //Valida query order

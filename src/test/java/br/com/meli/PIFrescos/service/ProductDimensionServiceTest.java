@@ -33,16 +33,16 @@ import static org.mockito.Mockito.verify;
 public class ProductDimensionServiceTest {
 
     @Mock
-    ProductDimensionRepository repository;
+    private ProductDimensionRepository repository;
 
     @Mock
-    ProductService productService;
+    private ProductService productService;
 
     @Mock
-    ProductDimensionCustomRepository customRepository;
+    private ProductDimensionCustomRepository customRepository;
 
     @InjectMocks
-    ProductDimensionService service;
+    private ProductDimensionService service;
 
     Product product = new Product();
     Product product2 = new Product();
