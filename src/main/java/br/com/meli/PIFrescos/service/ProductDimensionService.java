@@ -6,6 +6,7 @@ import br.com.meli.PIFrescos.repository.ProductDimensionCustomRepository;
 import br.com.meli.PIFrescos.repository.ProductDimensionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,9 +45,15 @@ public class ProductDimensionService {
      * Antes de atualizar uma dimensão, valida Id do produto.
      * @author Ana Preis
      */
+    @Transactional
     public ProductDimension updateDimension(ProductDimension productDimension) {
         Product product = productService.findProductById(productDimension.getProduct().getProductId());
-        return repository.save(productDimension);
+        ProductDimension newDimension = findByProduct(product);
+        newDimension.setHeight(productDimension.getHeight());
+        newDimension.setWidth(productDimension.getWidth());
+        newDimension.setLength(productDimension.getLength());
+        newDimension.setWeight(productDimension.getWeight());
+        return repository.save(newDimension);
     }
 
     /**
@@ -75,5 +82,13 @@ public class ProductDimensionService {
      */
     public List<ProductDimension> filterByParams(Float maxHeight, Float maxWidth, Float maxLength, Float maxWeight, String order){
         return customRepository.find(maxHeight, maxWidth, maxLength, maxWeight, order);
+    }
+
+    /**
+     * Calcula o volume do produto
+     * @author Ana Preis
+     */
+    public Float calculateVolume(ProductDimension productDimension){
+        return (productDimension.getHeight() * productDimension.getLength() * productDimension.getWidth());
     }
 }

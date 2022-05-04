@@ -66,8 +66,9 @@ public class ProductDimensionController {
     @GetMapping("vol/{id}")
     public ResponseEntity<String> getProductVolume(@PathVariable Integer id){
         Product product = productService.findProductById(id);
-        ProductDimension dimension = productDimensionService.findByProduct(product);
-        return ResponseEntity.ok("CALCULAR VOLUME");
+        ProductDimension productDimension = productDimensionService.findByProduct(product);
+        Float volume = productDimensionService.calculateVolume(productDimension);
+        return ResponseEntity.ok("Volume da " + product.getProductName() + ": " + volume + " cm³.");
     }
 
     /**
