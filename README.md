@@ -3,6 +3,30 @@
 
 Este Projeto Integrador se destina a simular uma nova modalidade de armazenamento, transporte e comercialização de produtos frescos, congelados e refrigerados do Mercado Livre através de uma API REST em Java com Spring Boot e suas respectivas dependências.
 
+### Requisito 06: Registrar dimensões do produto
+
+Permite o representante realizar o registro das dimensões de um produto já cadastrado, incluindo a altura, largura, comprimento em cm, e também o peso em gramas. Através dos endpoints criados, o representante pode fazer o CRUD das dimensões. Caso algum produto possua suas dimensões cadastradas, elas também serão exibidas nos endpoints de GET de produto.
+
+### Requisito 06: Endpoints:
+
+![REQ06 ENDPOINTS](https://user-images.githubusercontent.com/101266447/166931944-fbe11db9-0119-445a-ad23-8d0465d6e8cd.png)
+
+### Exemplo de Payload:
+
+![REQ06 PAYLOAD](https://user-images.githubusercontent.com/101266447/166932369-ae8b9608-5c5d-48f7-9fcd-c0aee3d2ebbe.png)
+
+### Diagrama de Classe:
+
+![REQ06 DC](https://user-images.githubusercontent.com/101266447/166931555-e7abca06-efeb-47b0-b910-11fc7dc8cc55.png)
+
+### Collection com os End-points no Postman:
+
+Encontra-se dentro do projeto, no diretório abaixo:
+
+```sh
+src/main/resources/PostmanCollection.json
+```
+-----
 ### Características e Tecnologias:
 - Java 11;
 - Spring Security e Token JWT;
@@ -17,16 +41,6 @@ Para acesso local do banco de dados, é necessário a inserção da variável de
 ```sh
 HOST=jdbc:postgresql://localhost:5432/PIDB;USERNAME=(seu_nome_de_usuário);PASSWORD=(sua_senha_definida)
 ```
-
-### Collection com os End-points no Postman:
-
-Encontra-se dentro do projeto, no diretório abaixo:
-
-```sh
-src/main/resources/PostmanCollection.json
-```
-
-
 - Quadro Kanban com as tasks realizadas [Disponível aqui](https://github.com/juliocesargama/ProjetoIntegrador-MeliFrescos/projects/1).
 
 ### Diagramas de Classe
