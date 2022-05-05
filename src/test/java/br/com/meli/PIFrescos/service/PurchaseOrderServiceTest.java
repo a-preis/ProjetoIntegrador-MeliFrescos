@@ -309,7 +309,12 @@ public class PurchaseOrderServiceTest {
     void shouldUpdateCartList() {
         productsCart1.setQuantity(3);
         productsCart2.setQuantity(3);
+        PurchaseOrder oldPurchaseOder = new PurchaseOrder();
+        List<ProductsCart> oldProductsCartList = new ArrayList<>();
+        oldProductsCartList.add(productsCart1);
+        oldPurchaseOder.setCartList(oldProductsCartList);
 
+        Mockito.when(purchaseOrderRepository.getPurchaseOpenedByUserId(any())).thenReturn(Collections.singletonList(oldPurchaseOder));
         Mockito.when(batchService.findByBatchNumber(1)).thenReturn(mockBatch1);
         Mockito.when(batchService.findByBatchNumber(2)).thenReturn(mockBatch2);
         Mockito.when(purchaseOrderRepository.save(purchaseOrder)).thenReturn(purchaseOrder);

@@ -50,11 +50,7 @@ public class PurchaseOrderService implements IPurchaseOrderService {
         }
 
         //encontrar o batch
-        purchaseOrder.getCartList().forEach(productsCart -> {
-            Integer batchNumber = productsCart.getBatch().getBatchNumber();
-            Batch batch = batchService.findByBatchNumber(batchNumber);
-            productsCart.setBatch(batch);
-        });
+        purchaseOrder = findPurchaseOrderCartListBatch(purchaseOrder);
 
         // unifica ProductsCart de batches iguais, caso tenha
         List<ProductsCart> fixedProductsCart = dedupProductCartList(purchaseOrder.getCartList());
@@ -63,6 +59,20 @@ public class PurchaseOrderService implements IPurchaseOrderService {
 
         // PurchaseOrder fromDB = getPurchaseOrderByUserIdAndStatusIsOpened(purchaseOrder.getUser().getId());
         return purchaseOrderRepository.save(purchaseOrder);
+    }
+
+    /**
+     * Método para encontrar o batch inserido e atualizar os valores em CartList.
+     * @param purchaseOrder
+     * @return purchaseOrder
+     */
+    private PurchaseOrder findPurchaseOrderCartListBatch(PurchaseOrder purchaseOrder) {
+        purchaseOrder.getCartList().forEach(productsCart -> {
+            Integer batchNumber = productsCart.getBatch().getBatchNumber();
+            Batch batch = batchService.findByBatchNumber(batchNumber);
+            productsCart.setBatch(batch);
+        });
+        return purchaseOrder;
     }
 
     /**
@@ -113,7 +123,7 @@ public class PurchaseOrderService implements IPurchaseOrderService {
         Batch batch = batchService.findByBatchNumber(productsCart.getBatch().getBatchNumber());
         Integer batchCurrentQuantity = batch.getCurrentQuantity();
 
-        boolean isValid = batchCurrentQuantity.compareTo(productCartQuantity) > 0;
+        boolean isValid = batchCurrentQuantity.compareTo(productCartQuantity) >= 0;
         if(!isValid)
             productsCart.setBatch(batch);
 
@@ -223,7 +233,17 @@ public class PurchaseOrderService implements IPurchaseOrderService {
     @Transactional
     @Override
     public PurchaseOrder updateCartList(PurchaseOrder newPurchaseOrder) {
-        return save(newPurchaseOrder);
+        PurchaseOrder old = getPurchaseOrderByUserIdAndStatusIsOpened(newPurchaseOrder.getUser().getId());
+        newPurchaseOrder.setId(old.getId());
+        //encontrar o batch
+        newPurchaseOrder = findPurchaseOrderCartListBatch(newPurchaseOrder);
+
+        // unifica ProductsCart de batches iguais, caso tenha
+        List<ProductsCart> fixedProductsCart = dedupProductCartList(newPurchaseOrder.getCartList());
+        newPurchaseOrder.setCartList(fixedProductsCart);
+        validProductList(newPurchaseOrder);
+
+        return purchaseOrderRepository.save(newPurchaseOrder);
     }
 
     @Override
