@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "daa38728-1459-4fde-80df-0156bdc13b04",
-		"name": "PraticaIntetgradora",
+		"_postman_id": "749e0934-bbad-4e39-8f40-b13628f1fd03",
+		"name": "PraticaIntegradora",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -219,49 +219,6 @@
 					"response": []
 				},
 				{
-					"name": "get Batches by days & category & order",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/due-date/list?days=15&category=FRESH&order=asc",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"fresh-products",
-								"due-date",
-								"list"
-							],
-							"query": [
-								{
-									"key": "days",
-									"value": "15"
-								},
-								{
-									"key": "category",
-									"value": "FRESH"
-								},
-								{
-									"key": "order",
-									"value": "asc"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "get Batch from Section With expiring date limit",
 					"request": {
 						"method": "GET",
@@ -273,7 +230,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/duedate?sectionId=1&expiringLimit=30",
+							"raw": "http://localhost:8080/api/v1/fresh-products/due-date?sectionId=1&expiringLimit=30",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -283,7 +240,7 @@
 								"api",
 								"v1",
 								"fresh-products",
-								"duedate"
+								"due-date"
 							],
 							"query": [
 								{
@@ -506,7 +463,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userId\": 1,\n    \"orderStatus\": \"OPENED\",\n    \"cartList\": [\n        {\n            \"batchId\": 1,\n            \"quantity\": 1\n        },\n        {\n            \"batchId\": 1,\n            \"quantity\": 1\n        }\n    ]\n}",
+							"raw": "{\n    \"cartList\": [\n        {\n            \"batchId\": 3,\n            \"quantity\": 1\n        },\n        {\n            \"batchId\": 3,\n            \"quantity\": 1\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -542,7 +499,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/orders",
+							"raw": "http://localhost:8080/api/v1/fresh-products/orders?querytype=1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -553,6 +510,12 @@
 								"v1",
 								"fresh-products",
 								"orders"
+							],
+							"query": [
+								{
+									"key": "querytype",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -638,7 +601,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"cartList\": [\n        {\n            \"batchId\": 3,\n            \"quantity\": 1\n        },\n        {\n            \"batchId\": 3,\n            \"quantity\": 2\n        }\n    ]\n}",
+							"raw": "{\n    \"cartList\": [\n        {\n            \"batchId\": 1,\n            \"quantity\": 2\n        },\n        {\n            \"batchId\": 2,\n            \"quantity\": 2\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -708,21 +671,21 @@
 			]
 		},
 		{
-			"name": "warehouse",
+			"name": "user",
 			"item": [
 				{
-					"name": "get quantity product and warehouse by productId",
+					"name": "getUsers",
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "{{token}}",
-								"type": "default"
+								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/warehouse?productId=1",
+							"raw": "http://localhost:8080/api/v1/fresh-products/users",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -732,37 +695,20 @@
 								"api",
 								"v1",
 								"fresh-products",
-								"warehouse"
-							],
-							"query": [
-								{
-									"key": "productId",
-									"value": "1"
-								}
+								"users"
 							]
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "dimensions",
-			"item": [
+				},
 				{
-					"name": "post dimension",
+					"name": "postUser",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "default"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"productId\": 1,\n    \"height\": 10.0,\n    \"width\": 10.0,\n    \"length\": 10.0,\n    \"weight\": 10.0\n}\n\n",
+							"raw": "{\n    \"fullname\": \"João da Silva\",\n    \"email\": \"joao@email.com.br\",\n    \"password\": \"123456\",\n    \"address\": {\n        \"street\": \"Rua dois\",\n        \"number\": \"23\",\n        \"region\": \"São Paulo\",\n        \"zipcode\": \"01001-000\"\n    },\n    \"role\": \"ADMIN\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -770,7 +716,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/dimension",
+							"raw": "http://localhost:8080/api/v1/fresh-products/users",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -780,26 +726,26 @@
 								"api",
 								"v1",
 								"fresh-products",
-								"dimension"
+								"users"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "update dimension",
+					"name": "putUser",
 					"request": {
 						"method": "PUT",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "{{token}}",
-								"type": "default"
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"productId\": 1,\n    \"height\": 15.0,\n    \"width\": 10.0,\n    \"length\": 10.0,\n    \"weight\": 10.0\n}\n",
+							"raw": "{\n    \"fullname\": \"Joãozinho da Silva\",\n    \"email\": \"joaoaa@email.com.br\",\n    \"password\": \"123456\",\n    \"address\": {\n        \"street\": \"Rua dois\",\n        \"number\": \"23\",\n        \"region\": \"São Paulo\",\n        \"zipcode\": \"01001-000\"\n    },\n    \"role\": \"ADMIN\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -807,7 +753,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/dimension",
+							"raw": "http://localhost:8080/api/v1/fresh-products/users/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -817,119 +763,35 @@
 								"api",
 								"v1",
 								"fresh-products",
-								"dimension"
+								"users",
+								"5"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "delete dimension",
+					"name": "deleteUser",
 					"request": {
 						"method": "DELETE",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "{{token}}",
-								"type": "default"
+								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/dimension/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"fresh-products",
-								"dimension",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get all",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/dimension/list",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"fresh-products",
-								"dimension",
-								"list"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get by id",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/dimension/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"fresh-products",
-								"dimension",
-								"1"
-							],
-							"query": [
-								{
-									"key": "",
-									"value": null,
-									"disabled": true
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get all filtered by",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "default"
 							}
-						],
+						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/dimension/listBy?maxHeight=100&maxWidth=100&maxLength=100&maxWeight=100000&order=asc",
+							"raw": "http://localhost:8080/api/v1/fresh-products/users/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -939,59 +801,7 @@
 								"api",
 								"v1",
 								"fresh-products",
-								"dimension",
-								"listBy"
-							],
-							"query": [
-								{
-									"key": "maxHeight",
-									"value": "100"
-								},
-								{
-									"key": "maxWidth",
-									"value": "100"
-								},
-								{
-									"key": "maxLength",
-									"value": "100"
-								},
-								{
-									"key": "maxWeight",
-									"value": "100000"
-								},
-								{
-									"key": "order",
-									"value": "asc"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get volume",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{token}}",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/fresh-products/dimension/vol/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"fresh-products",
-								"dimension",
-								"vol",
+								"users",
 								"1"
 							]
 						}
@@ -1049,14 +859,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "token",
-			"value": "",
-			"type": "default",
-			"disabled": true
 		}
 	]
 }

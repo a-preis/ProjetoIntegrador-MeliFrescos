@@ -46,7 +46,7 @@ Permite o representante realizar o registro das dimensões de um produto já cad
 Os endpoints do CRUD de dimensão do produto se encontram na pasta "dimensions" no diretório abaixo, dentro do projeto:
 
 ```sh
-src/main/resources/PostmanCollection1.json
+src/main/resources/PostmanCollection.json
 ```
 -----
 ### Características e Tecnologias:
