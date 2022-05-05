@@ -7,7 +7,11 @@ Este Projeto Integrador se destina a simular uma nova modalidade de armazenament
 
 Permite o representante realizar o registro das dimensões de um produto já cadastrado, incluindo a altura, largura, comprimento em cm, e também o peso em gramas. Através dos endpoints criados, o representante pode fazer o CRUD das dimensões. Caso algum produto possua suas dimensões cadastradas, elas também serão exibidas nos endpoints de GET de produto.
 
-### Requisito 06: Endpoints:
+### User Story:
+[PDF](https://github.com/a-preis/ProjetoIntegrador-MeliFrescos/files/8632108/Requisito.06.docx.pdf)
+
+
+### Endpoints Requisito 06:
 
 ![REQ06 ENDPOINTS](https://user-images.githubusercontent.com/101266447/166931944-fbe11db9-0119-445a-ad23-8d0465d6e8cd.png)
 
