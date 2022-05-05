@@ -102,7 +102,7 @@ public class ProductDimensionService {
     }
 
     /**
-     * Calcula o volume do produto
+     * Calcula o volume do produto em cm3
      * @author Ana Preis
      */
     public Float calculateVolume(ProductDimension productDimension){
