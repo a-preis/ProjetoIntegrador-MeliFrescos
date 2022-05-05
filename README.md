@@ -10,7 +10,6 @@ Permite o representante realizar o registro das dimensões de um produto já cad
 ### User Story:
 [PDF](https://github.com/a-preis/ProjetoIntegrador-MeliFrescos/files/8632108/Requisito.06.docx.pdf)
 
-
 ### Endpoints Requisito 06:
 
 ![REQ06 ENDPOINTS](https://user-images.githubusercontent.com/101266447/166931944-fbe11db9-0119-445a-ad23-8d0465d6e8cd.png)
@@ -44,8 +43,7 @@ Permite o representante realizar o registro das dimensões de um produto já cad
 ![REQ06 DC](https://user-images.githubusercontent.com/101266447/166931555-e7abca06-efeb-47b0-b910-11fc7dc8cc55.png)
 
 ### Collection com os End-points no Postman:
-
-Encontra-se dentro do projeto, no diretório abaixo:
+Os endpoints do CRUD de dimensão do produto se encontram na pasta "dimensions" no diretório abaixo, dentro do projeto:
 
 ```sh
 src/main/resources/PostmanCollection.json
