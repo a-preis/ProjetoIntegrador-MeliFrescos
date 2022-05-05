@@ -11,9 +11,29 @@ Permite o representante realizar o registro das dimensões de um produto já cad
 
 ![REQ06 ENDPOINTS](https://user-images.githubusercontent.com/101266447/166931944-fbe11db9-0119-445a-ad23-8d0465d6e8cd.png)
 
-### Exemplo de Payload:
+### Exemplo de Payload Request:
 
-![REQ06 PAYLOAD](https://user-images.githubusercontent.com/101266447/166932369-ae8b9608-5c5d-48f7-9fcd-c0aee3d2ebbe.png)
+```
+{
+  "productId": "Integer",
+  "height": "Float",
+  "width": "Float",
+  "length": "Float",
+  "weight: "Float",
+}
+```
+
+### Exemplo de Response:
+
+```
+{
+  "productName": "String",
+  "height": "Float",
+  "width": "Float",
+  "length": "Float",
+  "weight: "Float",
+}
+```
 
 ### Diagrama de Classe:
 
