@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "749e0934-bbad-4e39-8f40-b13628f1fd03",
-		"name": "PraticaIntegradora",
+		"_postman_id": "f4436dc4-6edf-4ae3-b483-3f456a7f1fe5",
+		"name": "PraticaIntegradora Com Req 06",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -802,6 +802,260 @@
 								"v1",
 								"fresh-products",
 								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dimensions",
+			"item": [
+				{
+					"name": "post dimension",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": 1,\n    \"height\": 10.0,\n    \"width\": 10.0,\n    \"length\": 10.0,\n    \"weight\": 10.0\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/fresh-products/dimension",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"fresh-products",
+								"dimension"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update dimension",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": 1,\n    \"height\": 15.0,\n    \"width\": 10.0,\n    \"length\": 10.0,\n    \"weight\": 10.0\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/fresh-products/dimension",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"fresh-products",
+								"dimension"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete dimension",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/fresh-products/dimension/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"fresh-products",
+								"dimension",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/fresh-products/dimension/list",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"fresh-products",
+								"dimension",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/fresh-products/dimension/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"fresh-products",
+								"dimension",
+								"1"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all filtered by",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/fresh-products/dimension/listBy?maxHeight=100&maxWidth=100&maxLength=100&maxWeight=100000&order=asc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"fresh-products",
+								"dimension",
+								"listBy"
+							],
+							"query": [
+								{
+									"key": "maxHeight",
+									"value": "100"
+								},
+								{
+									"key": "maxWidth",
+									"value": "100"
+								},
+								{
+									"key": "maxLength",
+									"value": "100"
+								},
+								{
+									"key": "maxWeight",
+									"value": "100000"
+								},
+								{
+									"key": "order",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get volume",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/fresh-products/dimension/vol/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"fresh-products",
+								"dimension",
+								"vol",
 								"1"
 							]
 						}
