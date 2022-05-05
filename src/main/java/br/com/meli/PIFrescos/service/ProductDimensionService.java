@@ -25,7 +25,7 @@ public class ProductDimensionService {
     private ProductService productService;
 
     @Autowired
-    ProductDimensionCustomRepository customRepository;
+    private ProductDimensionCustomRepository customRepository;
 
     /**
      * Antes de salvar uma nova dimensão, valida Id do produto e valida se esse produto já tem alguma dimensão cadastrada.
@@ -82,6 +82,15 @@ public class ProductDimensionService {
             throw new EntityNotFoundException(product.getProductName() + " dimension not found.");
         }
         return dimension.get();
+    }
+
+    /**
+     * Retorna a dimensão do produto recebido cadastradas.
+     * @author Ana Preis
+     */
+    public Optional<ProductDimension> findOptionalByProduct(Product product) {
+        Optional<ProductDimension> dimension = repository.findProductDimensionByProduct(product);
+        return dimension;
     }
 
     /**

@@ -3,8 +3,10 @@ package br.com.meli.PIFrescos.integrationtests;
 import br.com.meli.PIFrescos.controller.dtos.TokenDto;
 import br.com.meli.PIFrescos.controller.forms.ProductForm;
 import br.com.meli.PIFrescos.models.*;
+import br.com.meli.PIFrescos.repository.ProductDimensionRepository;
 import br.com.meli.PIFrescos.repository.ProductRepository;
 import br.com.meli.PIFrescos.repository.UserRepository;
+import br.com.meli.PIFrescos.service.ProductDimensionService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,6 +47,12 @@ public class ProductControllerIT {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private ProductDimensionService dimensionService;
+
+    @MockBean
+    private ProductDimensionRepository dimensionRepository;
 
     Product mockProduct = new Product();
     Product mockProduct2 = new Product();
@@ -168,6 +176,7 @@ public class ProductControllerIT {
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.ofNullable(userMock));
 
         ProductForm result = objectMapper.readValue(payload, ProductForm.class);
+        Mockito.when(dimensionService.findOptionalByProduct(any())).thenReturn(Optional.empty());
         Mockito.when(productRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(result.convert()));
 
         String payloadUpdated = "{ \n"
@@ -176,7 +185,7 @@ public class ProductControllerIT {
                 + " \"productDescription\": \"queijo do tipo Mussarela\""
                 + "}";
 
-        ProductForm  resultUpdate = objectMapper.readValue(payloadUpdated, ProductForm.class);
+        ProductForm resultUpdate = objectMapper.readValue(payloadUpdated, ProductForm.class);
         Mockito.when(productRepository.save(any())).thenReturn(resultUpdate.convert());
 
         mockMvc.perform(put("/fresh-products/1")
@@ -196,8 +205,9 @@ public class ProductControllerIT {
 
         Mockito.when(userRepository.findById(any())).thenReturn(Optional.ofNullable(userMock));
 
+        Mockito.when(dimensionService.findOptionalByProduct(any())).thenReturn(Optional.empty());
         ProductForm result = objectMapper.readValue(payload, ProductForm.class);
-        Product  product = result.convert();
+        Product product = result.convert();
         Mockito.when(productRepository.findById(1)).thenReturn(java.util.Optional.ofNullable(product));
 
         mockMvc.perform(delete("/fresh-products/1")

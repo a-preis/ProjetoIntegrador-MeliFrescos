@@ -2,6 +2,7 @@ package br.com.meli.PIFrescos.service;
 
 import br.com.meli.PIFrescos.models.Product;
 import br.com.meli.PIFrescos.models.StorageType;
+import br.com.meli.PIFrescos.repository.ProductDimensionRepository;
 import br.com.meli.PIFrescos.repository.ProductRepository;
 
 import org.junit.jupiter.api.*;
@@ -33,6 +34,9 @@ public class ProductServiceTest {
 
   @InjectMocks
   private ProductService productService;
+
+  @Mock
+  private ProductDimensionRepository productDimensionRepository;
 
   List<Product> products = new ArrayList<>();
   Product product1 = new Product(1, "Coca-Cola", StorageType.REFRIGERATED, "Refrigerante");
@@ -142,7 +146,7 @@ public class ProductServiceTest {
   @DisplayName("Test delete product")
   void testDeleteProduct() {
     Mockito.when(productRepository.findById(product1.getProductId())).thenReturn(Optional.ofNullable(product1));
-
+    productDimensionRepository.deleteProductDimensionByProduct(product1);
     productService.deleteProduct(1);
 
     verify(productRepository).delete(any());

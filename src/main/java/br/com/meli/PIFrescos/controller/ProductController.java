@@ -6,6 +6,7 @@ import br.com.meli.PIFrescos.controller.forms.ProductForm;
 import br.com.meli.PIFrescos.models.Batch;
 import br.com.meli.PIFrescos.models.Product;
 import br.com.meli.PIFrescos.service.BatchServiceImpl;
+import br.com.meli.PIFrescos.service.ProductDimensionService;
 import br.com.meli.PIFrescos.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,9 @@ public class ProductController {
     @Autowired
     private BatchServiceImpl batchService;
 
+    @Autowired
+    private ProductDimensionService productDimensionService;
+
     @PostMapping
     public ResponseEntity<ProductDTO> create(@RequestBody @Valid ProductForm form){
         Product product = this.productService.createProduct(form.convert());
@@ -39,14 +43,14 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductDTO>> all(){
         List<Product> all = this.productService.listAllProducts();
-        return ResponseEntity.ok(ProductDTO.convertList(all));
+        return ResponseEntity.ok(ProductDTO.convertList(all, productDimensionService));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable Integer id, @RequestBody @Valid ProductForm form){
         form.setProductId(id);
         Product product = this.productService.updateProduct(form.convert());
-        return ResponseEntity.ok(new ProductDTO(product));
+        return ResponseEntity.ok(new ProductDTO(product, productDimensionService));
     }
 
     @DeleteMapping("/{id}")
@@ -62,8 +66,8 @@ public class ProductController {
 
     @GetMapping("/list")
     public ResponseEntity<List<ProductDTO>> getByType(@RequestParam String querytype){
-
-        return new ResponseEntity(productService.listByType(querytype), HttpStatus.OK);
+        List<Product> list = productService.listByType(querytype);
+        return new ResponseEntity(ProductDTO.convertList(list, productDimensionService), HttpStatus.OK);
     }
 
     /**

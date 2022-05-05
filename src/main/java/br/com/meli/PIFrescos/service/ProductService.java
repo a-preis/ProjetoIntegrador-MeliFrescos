@@ -1,9 +1,11 @@
 package br.com.meli.PIFrescos.service;
 
 import br.com.meli.PIFrescos.models.Product;
+import br.com.meli.PIFrescos.repository.ProductDimensionRepository;
 import br.com.meli.PIFrescos.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -20,6 +22,9 @@ import java.util.stream.Collectors;
 public class ProductService {
   @Autowired
   private ProductRepository productRepository;
+
+  @Autowired
+  private ProductDimensionRepository productDimensionRepository;
 
   public List<Product> listAllProducts() {
     List<Product> productList = productRepository.findAll();
@@ -66,12 +71,13 @@ public class ProductService {
     return productRepository.save(product);
   }
 
+  @Transactional
   public void deleteProduct(Integer id){
     Optional<Product> productOptional = productRepository.findById(id);
     if(productOptional.isEmpty()){
       throw new EntityNotFoundException("Product not found");
     }
-
+    productDimensionRepository.deleteProductDimensionByProduct(productOptional.get());
     productRepository.delete(productOptional.get());
   }
 }
