@@ -210,6 +210,19 @@ public class ProductDimensionServiceTest {
     }
 
     /**
+     * Teste do método findOptionalByProduct()
+     */
+    @Test
+    void shouldFindOptionalByProduct(){
+        Mockito.when(repository.findProductDimensionByProduct(product)).thenReturn(Optional.ofNullable(dimension));
+        Optional<ProductDimension> expect = Optional.of(dimension);
+
+        Optional<ProductDimension> result= service.findOptionalByProduct(product);
+
+        assertEquals(expect, result);
+    }
+
+    /**
      * Teste do método filterByParams()
      */
     @Test
