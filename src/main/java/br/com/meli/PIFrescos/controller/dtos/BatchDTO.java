@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -29,7 +30,6 @@ public class BatchDTO {
   private BigDecimal unitPrice;
   private LocalDate manufacturingDate;
   private LocalDate dueDate;
-
   private Integer productId;
 
   public static Batch convert(BatchDTO dto) {

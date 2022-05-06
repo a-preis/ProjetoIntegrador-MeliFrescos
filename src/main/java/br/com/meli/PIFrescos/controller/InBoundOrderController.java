@@ -41,7 +41,7 @@ public class InBoundOrderController {
      * @author Ana Preis
      */
     @PostMapping("")
-    public ResponseEntity<List<Batch>> postInboundOrders(@RequestBody InboundOrderForm orderDTO){
+    public ResponseEntity<List<Batch>> postInboundOrders(@RequestBody @Valid InboundOrderForm orderDTO){
         InboundOrder order = InboundOrderForm.convert(orderDTO);
         InboundOrder savedOrder = inboundOrderService.save(order);
 

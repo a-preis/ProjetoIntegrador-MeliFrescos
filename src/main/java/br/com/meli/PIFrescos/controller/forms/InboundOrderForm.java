@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,9 +23,11 @@ import java.util.List;
 @AllArgsConstructor
 public class InboundOrderForm {
 
-    private LocalDate orderDate;
+    private LocalDate orderDate = LocalDate.now();
+    @NotNull
     private Section section;
-    private List<BatchDTO> batchStock;
+    @NotNull
+    private List<@Valid BatchDTO> batchStock;
 
     public static InboundOrder convert(InboundOrderForm dto) {
         return new InboundOrder(null, dto.getOrderDate(), dto.getSection(),
